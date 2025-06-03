@@ -1,5 +1,11 @@
 <script setup>
-import { ref } from "vue";
+// import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useCounterStore } from "@/stores/counter";
+
+const store = useCounterStore();
+const { count } = storeToRefs(store);
+const { increment, decrement } = store;
 
 defineProps({
   message: {
@@ -7,15 +13,15 @@ defineProps({
   },
 });
 
-const count = ref(0);
+// const count = ref(0);
 
-const increment = () => {
-  count.value++;
-};
+// const increment = () => {
+//   count.value++;
+// };
 
-const decrement = () => {
-  count.value--;
-};
+// const decrement = () => {
+//   count.value--;
+// };
 </script>
 
 <template>

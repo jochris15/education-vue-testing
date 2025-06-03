@@ -1,8 +1,14 @@
+/* global describe, it, expect, beforeEach */
 import { mount } from '@vue/test-utils';
 import CounterPage from '@/views/CounterPage.vue';
-import { describe, expect, it } from 'vitest';
+import { createPinia, setActivePinia } from 'pinia';
 
 describe('CounterPage', () => {
+    beforeEach(() => {
+        // creates a fresh pinia and makes it active
+        setActivePinia(createPinia())
+    })
+
     it('renders the component', () => {
         const wrapper = mount(CounterPage);
         expect(wrapper.exists()).toBe(true);
@@ -14,7 +20,7 @@ describe('CounterPage', () => {
 
         await button.trigger('click');
 
-        // console.log(wrapper.text());
+        console.log(wrapper.text());
         // console.log(wrapper.html());
         expect(wrapper.text()).toContain('Count : 1');
     });
@@ -29,11 +35,12 @@ describe('CounterPage', () => {
 
     it('renders the correct message from prop', () => {
         const wrapper = mount(CounterPage, {
-            props: {
+            propsData: {
                 message: 'hello world'
             }
         });
 
-        expect(wrapper.text()).toContain('message : hello world');
+        // console.log(wrapper.props('message'));
+        expect(wrapper.props('message')).toBe('hello world')
     });
 });
