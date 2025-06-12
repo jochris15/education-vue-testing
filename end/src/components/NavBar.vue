@@ -11,6 +11,9 @@
         <RouterLink to="/counter-pinia" class="text-2xl font-bold px-6 cursor-pointer">
           <span>Pinia</span>
         </RouterLink>
+        <RouterLink to="/users" class="text-2xl font-bold px-6 cursor-pointer">
+          <span>User List</span>
+        </RouterLink>
       </div>
     </div>
   </nav>

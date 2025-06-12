@@ -3,6 +3,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 import BaseLayout from '@/views/BaseLayout.vue'
 import CounterPage from '@/views/CounterPage.vue'
 import CounterPinia from '@/views/CounterPinia.vue'
+import UserList from '@/views/UserList.vue'
 
 const routes = [
     {
@@ -21,6 +22,11 @@ const routes = [
                 path: '/counter-pinia',
                 name: 'counter-pinia',
                 component: CounterPinia,
+            },
+            {
+                path: '/users',
+                name: 'users',
+                component: UserList,
             }
         ],
     }

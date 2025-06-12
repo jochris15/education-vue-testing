@@ -108,3 +108,32 @@ beforeEach(() => {
     setActivePinia(createPinia())
 })
 ```
+
+<br>
+<br>
+<br>
+<hr>
+
+# API Call Testing
+Untuk menguji komponen Vue yang melakukan panggilan API, kita bisa menggunakan `Mocking API`.
+
+Apa itu `Mocking API`? `Mocking API` adalah teknik untuk mensimulasikan respons dari API tanpa benar-benar melakukan panggilan ke server. Ini berguna untuk menguji komponen yang bergantung pada data dari API tanpa perlu mengakses jaringan.
+
+Kenapa `Mocking API` penting?
+- Menghindari ketergantungan pada API eksternal yang tidak dapat dijamin ketersediaannya, kecepatan, atau konsistensinya.
+- Memberikan kontrol penuh atas data yang dikembalikan oleh API sehingga kamu dapat menguji berbagai kondisi.
+- Mempercepat pengujian dengan menghindari latensi jaringan dan menunggu respons API.
+- Meningkatkan keandalan dan konsistensi pengujian.
+
+
+# Demo API Call Testing
+Pada demo ini, kita akan melakukan testing pada komponen UserList yang merender API https://jsonplaceholder.typicode.com
+
+Install terlebih dahulu package `flush-promises` pada app vue kita.
+```bash
+npm i flush-promises
+```
+
+[`flush-promises`](https://www.npmjs.com/package/flush-promises) digunakan untuk menunggu semua promise (termasuk promise dari API call atau async/await) selesai sebelum melakukan assertion pada unit test. Ini penting karena banyak komponen Vue melakukan operasi async (seperti fetch data dari API) di lifecycle hooks (misal: mounted). Dengan flush-promises, kamu memastikan DOM sudah ter-update sebelum melakukan pengecekan hasil test.
+
+## Fetch Testing
