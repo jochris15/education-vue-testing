@@ -1,12 +1,3 @@
-<script setup>
-import router from "@/router";
-
-const handleLogout = () => {
-  localStorage.clear();
-  router.push("/login");
-};
-</script>
-
 <template>
   <!-- navbar -->
   <nav
@@ -14,20 +5,13 @@ const handleLogout = () => {
   >
     <div class="flex justify-between items-center">
       <div>
-        <RouterLink to="/home" class="text-2xl font-bold px-6 cursor-pointer">
-          <span>Vue Router</span>
+        <RouterLink to="/counter" class="text-2xl font-bold px-6 cursor-pointer">
+          <span>Counter</span>
         </RouterLink>
-        <RouterLink :to="{ name: 'add' }" class="text-2xl font-bold px-6 cursor-pointer">
-          <span>Add Product</span>
+        <RouterLink to="/counter-pinia" class="text-2xl font-bold px-6 cursor-pointer">
+          <span>Pinia</span>
         </RouterLink>
       </div>
-
-      <a
-        class="text-2xl font-bold px-6 cursor-pointer hover:text-red-500"
-        @click="handleLogout"
-      >
-        <span>Logout</span>
-      </a>
     </div>
   </nav>
   <br />

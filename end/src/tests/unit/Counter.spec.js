@@ -1,21 +1,15 @@
-/* global describe, it, expect, beforeEach */
+/* global describe, it, expect*/
 import { mount } from '@vue/test-utils';
-import CounterPage from '@/views/CounterPage.vue';
-import { createPinia, setActivePinia } from 'pinia';
+import CounterCard from '@/components/CounterCard.vue';
 
-describe('CounterPage', () => {
-    beforeEach(() => {
-        // creates a fresh pinia and makes it active
-        setActivePinia(createPinia())
-    })
-
+describe('CounterCard', () => {
     it('renders the component', () => {
-        const wrapper = mount(CounterPage);
+        const wrapper = mount(CounterCard);
         expect(wrapper.exists()).toBe(true);
     });
 
     it('increments the counter when button is clicked', async () => {
-        const wrapper = mount(CounterPage);
+        const wrapper = mount(CounterCard);
         const button = wrapper.find('button#increment');
 
         await button.trigger('click');
@@ -26,7 +20,7 @@ describe('CounterPage', () => {
     });
 
     it('decrements the counter when button is clicked', async () => {
-        const wrapper = mount(CounterPage);
+        const wrapper = mount(CounterCard);
         const button = wrapper.find('button#decrement')
 
         await button.trigger('click');
@@ -34,7 +28,7 @@ describe('CounterPage', () => {
     });
 
     it('renders the correct message from prop', () => {
-        const wrapper = mount(CounterPage, {
+        const wrapper = mount(CounterCard, {
             propsData: {
                 message: 'hello world'
             }
