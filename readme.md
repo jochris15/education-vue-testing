@@ -137,3 +137,105 @@ npm i flush-promises
 [`flush-promises`](https://www.npmjs.com/package/flush-promises) digunakan untuk menunggu semua promise (termasuk promise dari API call atau async/await) selesai sebelum melakukan assertion pada unit test. Ini penting karena banyak komponen Vue melakukan operasi async (seperti fetch data dari API) di lifecycle hooks (misal: mounted). Dengan flush-promises, kamu memastikan DOM sudah ter-update sebelum melakukan pengecekan hasil test.
 
 ## Fetch Testing
+
+Step by step untuk melakukan unit testing pada komponen yang melakukan fetch data: 
+1. Buat file `UserList.spec.js` di dalam folder `src/tests/unit`.
+2. Import `vi` & gunakan `vi.fn()` dari Vitest untuk membuat mock function yang akan digunakan untuk menggantikan fungsi `fetch` bawaan JavaScript.
+3. Import & gunakan `mount` dari `@vue/test-utils` untuk merender komponen `UserList`.
+4. Import & gunakan `flushPromises` untuk menunggu semua promise selesai sebelum melakukan assertion.
+5. Verifikasi DOM dengan `findAllComponent({name : 'UserItem'})` untuk memastikan bahwa komponen `UserItem` dirender sesuai dengan data yang diharapkan.
+6. Gunakan `expect` untuk memeriksa apakah jumlah komponen `UserItem` sesuai dengan jumlah data yang diharapkan & apakah data yang ditampilkan sesuai dengan data yang diharapkan.
+```js
+/* global global ,describe, it, expect*/
+import { mount } from '@vue/test-utils';
+import UserList from '@/views/UserList.vue';
+import { describe, vi } from 'vitest';
+import flushPromises from 'flush-promises';
+
+describe('UserList.vue', () => {
+    it('render a list of users after successfull API request', async () => {
+
+        // MOCK API
+        const mockUsers = [
+            { id: 1, name: 'John Doe' },
+            { id: 2, name: 'Jane Smith' },
+        ];
+
+        // Mock the fetch function
+        global.fetch = vi.fn(() => {
+            return Promise.resolve({
+                json: () => Promise.resolve(mockUsers),
+            })
+        })
+
+        const wrapper = mount(UserList);
+
+        await flushPromises();
+
+        const users = wrapper.findAllComponents({ name: 'UserCard' })
+
+        expect(users.length).toBe(2)
+        expect(users[0].props('user')).toEqual({ id: 1, name: 'John Doe' })
+        expect(users[1].props('user')).toEqual({ id: 2, name: 'Jane Smith' })
+    })
+})
+```
+
+## Form Testing
+
+Step by step untuk melakukan unit testing pada komponen yang melakukan form submission: 
+1. Buat file `UserForm.spec.js` di dalam folder `src/tests/unit`.
+2. Import & gunakan `mount` dari `@vue/test-utils` untuk merender komponen `UserForm`.
+3. Simulasikan input form dengan menggunakan `wrapper.find("input#[id]").setValue` pada elemen input yang ada di dalam komponen sesuai idnya.
+4. Import `vi` & gunakan `vi.fn()` dari Vitest untuk membuat mock function yang akan digunakan untuk menggantikan fungsi `fetch` bawaan JavaScript.
+5. Simulasikan klik pada tombol submit dengan menggunakan `wrapper.find("form").trigger('submit')` pada elemen form.
+6. Pastikan event submit hanya diemit sekali dengan menggunakan `expect(wrapper.emitted().submit).toHaveLength(1)`.
+7. Import & gunakan `flushPromises` untuk menunggu semua promise selesai sebelum melakukan assertion.
+8. Gunakan `expect` untuk memeriksa apakah event submit sudah diemit dan apakah pesan sukses ditampilkan di dalam komponen.
+
+```js
+/* global global, describe, it, expect*/
+import { mount } from '@vue/test-utils';
+import { expect, vi } from 'vitest';
+import flushPromises from 'flush-promises';
+import UserForm from '@/views/UserForm.vue';
+
+describe('UserForm.vue', () => {
+    it('submits the form and emits submit event when valid data entered', async () => {
+        const wrapper = mount(UserForm);
+
+        const name = "bambang"
+        const username = "fufufefe"
+        const email = "bambang123@mail.com"
+
+        // Simulation form input
+        await wrapper.find('input#name').setValue(name)
+        await wrapper.find('input#username').setValue(username)
+        await wrapper.find('input#email').setValue(email)
+
+        // Mock the post function
+        global.fetch = vi.fn(() => {
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({
+                    name,
+                    username,
+                    email
+                }),
+            })
+        })
+
+        // Simulation click submit button
+        await wrapper.find('form').trigger('submit')
+        // make sure event submit only emitted once
+        expect(wrapper.emitted().submit).toHaveLength(1)
+
+        // wait all promise done & update DOM
+        await flushPromises();
+
+        // make sure event submit already emitted
+        expect(wrapper.emitted()).toHaveProperty('submit')
+        expect(wrapper.text()).toContain(`Succeed add new user ${username}`)
+    })
+})
+```
