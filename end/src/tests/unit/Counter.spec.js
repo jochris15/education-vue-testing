@@ -1,4 +1,3 @@
-/* global describe, it, expect*/
 import { mount } from '@vue/test-utils';
 import CounterCard from '@/components/CounterCard.vue';
 

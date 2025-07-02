@@ -1,4 +1,3 @@
-/* global describe, it, expect, beforeEach */
 import { mount } from '@vue/test-utils';
 import CounterPinia from '@/views/CounterPinia.vue';
 import { createPinia, setActivePinia } from 'pinia';

@@ -1,4 +1,3 @@
-/* global global, describe, it, expect*/
 import { mount } from '@vue/test-utils';
 import UserList from '@/views/UserList.vue';
 import { vi } from 'vitest';

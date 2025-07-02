@@ -1,4 +1,3 @@
-/* global global, describe, it, expect*/
 import { mount } from '@vue/test-utils';
 import { expect, vi } from 'vitest';
 import flushPromises from 'flush-promises';
