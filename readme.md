@@ -13,7 +13,7 @@ Step by step untuk melakukan unit testing pada Vue.js:
 npm install -D @vue/test-utils vitest jsdom
 ```
 
-2. Pada file `vitest.config.js`, kita perlu mengkonfigurasi Vitest untuk menggunakan jsdom sebagai environment testing:
+2. Pada file `vite.config.js`, kita perlu mengkonfigurasi Vitest untuk menggunakan jsdom sebagai environment testing:
 - [globals](https://vitest.dev/config/#globals) : Mengaktifkan global API seperti `describe`, `it`, dll.
 - [environment](https://vitest.dev/config/#environment): Menggunakan jsdom sebagai environment testing, yang memungkinkan kita untuk mensimulasikan DOM dalam pengujian.
 - transformMode : Mengaktifkan transformasi untuk file JavaScript dan TypeScript, sehingga kita dapat menggunakan sintaks modern seperti ES6, JSX, dan TypeScript dalam pengujian.
